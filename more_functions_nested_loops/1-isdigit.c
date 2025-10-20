@@ -8,9 +8,8 @@
  */
 int _isdigit(int c)
 {
-    // Check if ASCII value of c is between '0' (48) and '9' (57)
-    if (c >= '0' && c <= '9')
-        return 1; // It is a digit
-    else
-        return 0; // It is not a digit
+	if (c >= '0' && c <= '9')
+		return 1; // It is a digit
+	else
+		return 0; // It is not a digit
 }
