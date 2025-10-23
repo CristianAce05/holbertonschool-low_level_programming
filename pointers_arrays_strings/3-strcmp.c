@@ -7,8 +7,8 @@
  *
  * Description:
  * Compares the strings s1 and s2.
- * Returns an integer less than, equal to, or greater than zero
- * if s1 is found, respectively, to be less than, to match, or be greater than s2.
+ * Returns an integer less than, equal to, or greater than zero if s1 is
+ * found, respectively, to be less than, to match, or be greater than s2.
  *
  * Return: negative if s1 < s2, 0 if s1 == s2, positive if s1 > s2
  */
