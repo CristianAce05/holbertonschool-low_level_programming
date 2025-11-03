@@ -1,10 +1,11 @@
 #include <stdlib.h>
 
 /**
- * _strdup - returns a pointer to a newly allocated space containing a copy of str
- * @str: the string to duplicate
+ * _strdup - returns a pointer to a newly allocated space containing a copy
+ *           of the string str
+ * @str: string to duplicate
  *
- * Return: pointer to the duplicated string, or NULL if str is NULL or malloc fails
+ * Return: pointer to the duplicated string, or NULL on failure
  */
 char *_strdup(char *str)
 {
@@ -12,20 +13,17 @@ char *_strdup(char *str)
 	int i, len;
 
 	if (str == NULL)
-		return NULL;
+		return (NULL);
 
-	/* Calculate length of the string */
 	for (len = 0; str[len] != '\0'; len++)
 		;
 
-	/* Allocate memory for the duplicate string (+1 for null terminator) */
 	dup = malloc(sizeof(char) * (len + 1));
 	if (dup == NULL)
-		return NULL;
+		return (NULL);
 
-	/* Copy the string */
-	for (i = 0; i <= len; i++) /* include the null terminator */
+	for (i = 0; i <= len; i++)
 		dup[i] = str[i];
 
-	return dup;
+	return (dup);
 }
