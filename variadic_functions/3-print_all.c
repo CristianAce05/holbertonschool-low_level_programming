@@ -3,7 +3,7 @@
 
 /**
  * print_all - Prints anything.
- * @format: A list of types of arguments passed to the function.
+ * @format: A list of types of arguments passed to the function
  *
  * c: char
  * i: integer
@@ -14,7 +14,8 @@ void print_all(const char *const format, ...)
 {
 	va_list args;
 	unsigned int i = 0;
-	char *str, *sep = "";
+	char *str;
+	char *sep = "";
 
 	va_start(args, format);
 
@@ -26,16 +27,23 @@ void print_all(const char *const format, ...)
 			printf("%s", sep);
 			sep = ", ";
 
-			if (format[i] == 'c')
-				printf("%c", va_arg(args, int));
-			if (format[i] == 'i')
-				printf("%d", va_arg(args, int));
-			if (format[i] == 'f')
-				printf("%f", va_arg(args, double));
-			if (format[i] == 's')
+			switch (format[i])
 			{
+			case 'c':
+				printf("%c", va_arg(args, int));
+				break;
+			case 'i':
+				printf("%d", va_arg(args, int));
+				break;
+			case 'f':
+				printf("%f", va_arg(args, double));
+				break;
+			case 's':
 				str = va_arg(args, char *);
-				printf("%s", str ? str : "(nil)");
+				if (str == NULL)
+					str = "(nil)";
+				printf("%s", str);
+				break;
 			}
 		}
 		i++;
