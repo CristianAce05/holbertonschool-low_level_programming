@@ -1,39 +1,72 @@
 #include "hash_tables.h"
 
 /**
- * hash_table_set - Add or update a key/value in a hash table
+ * create_node - Creates a new hash node with key and value
+ * @key: Key string
+ * @value: Value string
+ *
+ * Return: Pointer to new node, or NULL on failure
+ */
+hash_node_t *create_node(const char *key, const char *value)
+{
+	hash_node_t *node;
+
+	node = malloc(sizeof(hash_node_t));
+	if (!node)
+		return (NULL);
+
+	node->key = strdup(key);
+	node->value = strdup(value);
+	if (!node->key || !node->value)
+	{
+		free(node->key);
+		free(node->value);
+		free(node);
+		return (NULL);
+	}
+
+	node->next = NULL;
+	return (node);
+}
+
+/**
+ * hash_table_set - Adds or updates a key/value in a hash table
  * @ht: Hash table
- * @key: Key
- * @value: Value
+ * @key: Key string
+ * @value: Value string
+ *
  * Return: 1 on success, 0 on failure
  */
 int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 {
-	hash_node_t *n; char *v; unsigned long int i;
-	if (!ht || !key || !value || !*key)
+	hash_node_t *node, *new_node;
+	unsigned long int index;
+
+	if (!ht || !key || !value || key[0] == '\0')
 		return (0);
-	i = key_index((const unsigned char *)key, ht->size);
-	for (n = ht->array[i]; n; n = n->next)
-		if (!strcmp(n->key, key))
+
+	index = key_index((const unsigned char *)key, ht->size);
+	node = ht->array[index];
+
+	while (node)
+	{
+		if (strcmp(node->key, key) == 0)
 		{
-			v = strdup(value);
-			if (!v)
+			char *val_copy = strdup(value);
+			if (!val_copy)
 				return (0);
-			free(n->value);
-			n->value = v;
+			free(node->value);
+			node->value = val_copy;
 			return (1);
 		}
-	n = malloc(sizeof(hash_node_t));
-	if (!n)
+		node = node->next;
+	}
+
+	new_node = create_node(key, value);
+	if (!new_node)
 		return (0);
-	n->key = strdup(key);
-	n->value = strdup(value);
-	if (!n->key || !n->value)
-		return (free(n->key), free(n->value), free(n), 0);
-	n->next = ht->array[i];
-	ht->array[i] = n;
+
+	new_node->next = ht->array[index];
+	ht->array[index] = new_node;
 	return (1);
 }
-
-
-
